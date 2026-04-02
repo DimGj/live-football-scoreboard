@@ -46,4 +46,28 @@ class ScoreboardTest {
 
         assertEquals("Away team must not be null or blank", exception.getMessage());
     }
+
+    @Test
+    void shouldRejectBlankHomeTeam() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> scoreboard.startMatch("   ", "Norway")
+        );
+
+        assertEquals("Home team must not be null or blank", exception.getMessage());
+    }
+
+    @Test
+    void shouldRejectBlankAwayTeam() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> scoreboard.startMatch("Brazil", "   ")
+        );
+
+        assertEquals("Away team must not be null or blank", exception.getMessage());
+    }
 }

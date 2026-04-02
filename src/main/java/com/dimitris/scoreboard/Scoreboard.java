@@ -8,6 +8,7 @@ public class Scoreboard {
 
     public void startMatch(String homeTeam, String awayTeam) {
         validateTeamName(homeTeam, "Home team must not be null or blank");
+        validateTeamName(awayTeam, "Away team must not be null or blank");
         matches.add(new Match(homeTeam, awayTeam));
     }
 

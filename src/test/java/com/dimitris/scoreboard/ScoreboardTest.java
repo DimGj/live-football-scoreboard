@@ -82,4 +82,18 @@ class ScoreboardTest {
 
         assertEquals("Home team and away team must be different", exception.getMessage());
     }
+
+    @Test
+    void shouldRejectDuplicateMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Brazil", "Spain");
+
+        IllegalStateException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> scoreboard.startMatch("Brazil", "Spain")
+        );
+
+        assertEquals("Match already exists", exception.getMessage());
+    }
 }

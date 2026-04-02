@@ -14,6 +14,15 @@ public class Scoreboard {
             throw new IllegalArgumentException("Home team and away team must be different");
         }
 
+        boolean alreadyExists = matches.stream()
+            .anyMatch(match ->
+                    match.getHomeTeam().equals(homeTeam) &&
+                    match.getAwayTeam().equals(awayTeam));
+
+        if (alreadyExists) {
+            throw new IllegalStateException("Match already exists");
+        }
+
         matches.add(new Match(homeTeam, awayTeam));
     }
 

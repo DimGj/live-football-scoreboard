@@ -137,4 +137,16 @@ class ScoreboardTest {
 
         assertEquals("Scores must not be negative", exception.getMessage());
     }
+
+    @Test
+    void shouldRejectUpdateForNonExistingMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        IllegalStateException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> scoreboard.updateScore("Zambia", "Italy", 5, 5)
+        );
+
+        assertEquals("Match does not exist", exception.getMessage());
+    }
 }

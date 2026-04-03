@@ -173,6 +173,13 @@ class ScoreboardTest {
     }
 
     @Test
+    void shouldReturnEmptySummaryWhenNoMatches() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        assertEquals(0, scoreboard.getSummary().size());
+    }
+
+    @Test
     void shouldReturnMatchesOrderedByTotalScoreDescending() {
         Scoreboard scoreboard = new Scoreboard();
 
@@ -204,5 +211,32 @@ class ScoreboardTest {
         var summary = scoreboard.getSummary();
         assertEquals("Chile", summary.get(0).getHomeTeam());
         assertEquals("USA", summary.get(1).getHomeTeam());
+    }
+
+    @Test
+    void shouldMatchExerciseExampleSummary() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Mexico", "Canada");
+        scoreboard.updateScore("Mexico", "Canada", 0, 5); // sum: 5
+
+        scoreboard.startMatch("Spain", "Brazil");
+        scoreboard.updateScore("Spain", "Brazil", 10, 2); // sum: 12
+
+        scoreboard.startMatch("Germany", "France");
+        scoreboard.updateScore("Germany", "France", 2, 2); // sum: 4
+
+        scoreboard.startMatch("Uruguay", "Italy");
+        scoreboard.updateScore("Uruguay", "Italy", 6, 6); // sum: 12
+
+        scoreboard.startMatch("Argentina", "Australia");
+        scoreboard.updateScore("Argentina", "Australia", 3, 1); // sum: 4
+
+        var summary = scoreboard.getSummary();
+        assertEquals("Uruguay", summary.get(0).getHomeTeam());
+        assertEquals("Spain", summary.get(1).getHomeTeam());
+        assertEquals("Mexico", summary.get(2).getHomeTeam());
+        assertEquals("Argentina", summary.get(3).getHomeTeam());
+        assertEquals("Germany", summary.get(4).getHomeTeam());
     }
 }

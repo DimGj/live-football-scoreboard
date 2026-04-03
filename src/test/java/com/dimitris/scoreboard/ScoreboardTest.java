@@ -190,4 +190,19 @@ class ScoreboardTest {
         assertEquals("Mexico", summary.get(1).getHomeTeam());
         assertEquals("Russia", summary.get(2).getHomeTeam());
     }
+
+    @Test
+    void shouldReturnTiedMatchesByMostRecentlyStartedFirst() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("USA", "Canada");
+        scoreboard.updateScore("USA", "Canada", 3, 3); // sum: 6
+
+        scoreboard.startMatch("Chile", "Brazil");
+        scoreboard.updateScore("Chile", "Brazil", 3, 3); // sum: 6
+
+        var summary = scoreboard.getSummary();
+        assertEquals("Chile", summary.get(0).getHomeTeam());
+        assertEquals("USA", summary.get(1).getHomeTeam());
+    }
 }

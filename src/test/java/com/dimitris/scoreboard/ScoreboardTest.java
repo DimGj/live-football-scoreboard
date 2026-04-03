@@ -159,4 +159,16 @@ class ScoreboardTest {
 
         assertEquals(0, scoreboard.getSummary().size());
     }
+
+    @Test
+    void shouldRejectFinishForNonExistingMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        IllegalStateException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> scoreboard.finishMatch("France", "Russia")
+        );
+
+        assertEquals("Match does not exist", exception.getMessage());
+    }
 }

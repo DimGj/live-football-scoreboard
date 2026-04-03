@@ -123,4 +123,18 @@ class ScoreboardTest {
 
         assertEquals("Scores must not be negative", exception.getMessage());
     }
+
+    @Test
+    void shouldRejectNegativeAwayScore() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Brazil", "Spain");
+
+        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> scoreboard.updateScore("Brazil", "Spain", 2, -2)
+        );
+
+        assertEquals("Scores must not be negative", exception.getMessage());
+    }
 }

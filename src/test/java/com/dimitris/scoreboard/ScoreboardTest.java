@@ -84,6 +84,18 @@ class ScoreboardTest {
     }
 
     @Test
+    void shouldRejectSameTeamsAfterTrimming() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> scoreboard.startMatch("  Brazil  ", "Brazil")
+        );
+
+        assertEquals("Home team and away team must be different", exception.getMessage());
+    }
+
+    @Test
     void shouldRejectDuplicateMatch() {
         Scoreboard scoreboard = new Scoreboard();
 

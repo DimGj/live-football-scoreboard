@@ -171,4 +171,23 @@ class ScoreboardTest {
 
         assertEquals("Match does not exist", exception.getMessage());
     }
+
+    @Test
+    void shouldReturnMatchesOrderedByTotalScoreDescending() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Mexico", "USA");
+        scoreboard.updateScore("Mexico", "USA", 5, 1); // sum: 6
+
+        scoreboard.startMatch("Italy", "Brazil");
+        scoreboard.updateScore("Italy", "Brazil", 8, 2); // sum: 10
+
+        scoreboard.startMatch("Russia", "France");
+        scoreboard.updateScore("Russia", "France", 1, 3); // sum: 4
+
+        var summary = scoreboard.getSummary();
+        assertEquals("Spain", summary.get(0).getHomeTeam());
+        assertEquals("Mexico", summary.get(1).getHomeTeam());
+        assertEquals("Germany", summary.get(2).getHomeTeam());
+    }
 }

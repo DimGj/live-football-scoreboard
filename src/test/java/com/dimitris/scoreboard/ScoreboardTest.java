@@ -98,6 +98,18 @@ class ScoreboardTest {
     }
 
     @Test
+    void shouldTrimTeamNamesWhenStartingMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("  Brazil  ", "  Spain  ");
+
+        Match match = scoreboard.getSummary().get(0);
+
+        assertEquals("Brazil", match.getHomeTeam());
+        assertEquals("Spain", match.getAwayTeam());
+    }
+
+    @Test
     void shouldUpdateScoreForExistingMatch() {
         Scoreboard scoreboard = new Scoreboard();
 

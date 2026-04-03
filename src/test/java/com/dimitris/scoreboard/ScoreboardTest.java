@@ -101,7 +101,7 @@ class ScoreboardTest {
     void shouldUpdateScoreForExistingMatch() {
         Scoreboard scoreboard = new Scoreboard();
 
-        scoreboard.startMatch("Brazil", "Spain");
+        scoreboard.startMatch("Norway", "Greece");
         scoreboard.updateScore("Norway", "Greece", 3, 1);
 
         Match match = scoreboard.getSummary().get(0);

@@ -149,4 +149,14 @@ class ScoreboardTest {
 
         assertEquals("Match does not exist", exception.getMessage());
     }
+
+    @Test
+    void shouldFinishExistingMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("France", "Russia");
+        scoreboard.finishMatch("France", "Russia");
+
+        assertEquals(0, scoreboard.getSummary().size());
+    }
 }

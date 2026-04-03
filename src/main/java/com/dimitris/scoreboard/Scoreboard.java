@@ -7,6 +7,7 @@ import java.util.Comparator;
 
 public class Scoreboard {
     private final List<Match> matches = new ArrayList<>();
+    private long nextStartOrder = 0;
 
     public void startMatch(String homeTeam, String awayTeam) {
         validateTeamName(homeTeam, "Home team must not be null or blank");
@@ -25,7 +26,7 @@ public class Scoreboard {
             throw new IllegalStateException("Match already exists");
         }
 
-        matches.add(new Match(homeTeam, awayTeam));
+        matches.add(new Match(homeTeam, awayTeam, ++nextStartOrder));
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
@@ -56,7 +57,8 @@ public class Scoreboard {
         return matches.stream()
                 .sorted(Comparator
                         .comparingInt((Match m) -> m.getHomeScore() + m.getAwayScore())
-                        .reversed())
+                        .reversed()
+                        .thenComparing(Comparator.comparingLong(Match::getStartOrder).reversed()))
                 .toList();
     }
 

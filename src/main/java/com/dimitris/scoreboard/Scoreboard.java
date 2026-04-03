@@ -27,6 +27,9 @@ public class Scoreboard {
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        validateScore(homeScore);
+        validateScore(awayScore);
+
         Match match = matches.stream()
                 .filter(existingMatch ->
                         existingMatch.getHomeTeam().equals(homeTeam) &&
@@ -44,6 +47,12 @@ public class Scoreboard {
     private void validateTeamName(String teamName, String errorMessage) {
         if (teamName == null || teamName.isBlank()) {
             throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
+    private void validateScore(int score) {
+        if (score < 0) {
+            throw new IllegalArgumentException("Scores must not be negative");
         }
     }
 }

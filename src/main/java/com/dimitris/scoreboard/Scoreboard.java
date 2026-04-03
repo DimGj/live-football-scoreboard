@@ -10,33 +10,36 @@ public class Scoreboard {
     private long nextStartOrder = 0;
 
     public void startMatch(String homeTeam, String awayTeam) {
-        validateTeamName(homeTeam, "Home team must not be null or blank");
-        validateTeamName(awayTeam, "Away team must not be null or blank");
+        String normalizedHomeTeam = normalizeTeamName(homeTeam, "Home team must not be null or blank");
+        String normalizedAwayTeam = normalizeTeamName(awayTeam, "Away team must not be null or blank");
 
-        if (homeTeam.equals(awayTeam)) {
+        if (normalizedHomeTeam.equals(normalizedAwayTeam)) {
             throw new IllegalArgumentException("Home team and away team must be different");
         }
 
         boolean alreadyExists = matches.stream()
             .anyMatch(match ->
-                    match.getHomeTeam().equals(homeTeam) &&
-                    match.getAwayTeam().equals(awayTeam));
+                    match.getHomeTeam().equals(normalizedHomeTeam) &&
+                    match.getAwayTeam().equals(normalizedAwayTeam));
 
         if (alreadyExists) {
             throw new IllegalStateException("Match already exists");
         }
 
-        matches.add(new Match(homeTeam, awayTeam, ++nextStartOrder));
+        matches.add(new Match(normalizedHomeTeam, normalizedAwayTeam, ++nextStartOrder));
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
         validateScore(homeScore);
         validateScore(awayScore);
 
+        String normalizedHomeTeam = normalizeTeamName(homeTeam, "Home team must not be null or blank");
+        String normalizedAwayTeam = normalizeTeamName(awayTeam, "Away team must not be null or blank");
+
         Match match = matches.stream()
                 .filter(existingMatch ->
-                        existingMatch.getHomeTeam().equals(homeTeam) &&
-                        existingMatch.getAwayTeam().equals(awayTeam))
+                        existingMatch.getHomeTeam().equals(normalizedHomeTeam) &&
+                        existingMatch.getAwayTeam().equals(normalizedAwayTeam))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Match does not exist"));
 
@@ -44,9 +47,12 @@ public class Scoreboard {
     }
 
     public void finishMatch(String homeTeam, String awayTeam) {
+        String normalizedHomeTeam = normalizeTeamName(homeTeam, "Home team must not be null or blank");
+        String normalizedAwayTeam = normalizeTeamName(awayTeam, "Away team must not be null or blank");
+
         boolean removed = matches.removeIf(match ->
-                match.getHomeTeam().equals(homeTeam) &&
-                match.getAwayTeam().equals(awayTeam));
+                match.getHomeTeam().equals(normalizedHomeTeam) &&
+                match.getAwayTeam().equals(normalizedAwayTeam));
 
         if (!removed) {
             throw new IllegalStateException("Match does not exist");
@@ -62,10 +68,18 @@ public class Scoreboard {
                 .toList();
     }
 
-    private void validateTeamName(String teamName, String errorMessage) {
-        if (teamName == null || teamName.isBlank()) {
+    private String normalizeTeamName(String teamName, String errorMessage) {
+        if (teamName == null) {
             throw new IllegalArgumentException(errorMessage);
         }
+
+        String normalizedTeamName = teamName.trim();
+
+        if (normalizedTeamName.isBlank()) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        return normalizedTeamName;
     }
 
     private void validateScore(int score) {

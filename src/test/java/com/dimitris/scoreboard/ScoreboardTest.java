@@ -224,6 +224,16 @@ class ScoreboardTest {
     }
 
     @Test
+    void shouldFinishMatchUsingTrimmedTeamNames() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Brazil", "Spain");
+        scoreboard.finishMatch("  Brazil  ", "  Spain  ");
+
+        assertEquals(0, scoreboard.getSummary().size());
+    }
+
+    @Test
     void shouldReturnEmptySummaryWhenNoMatches() {
         Scoreboard scoreboard = new Scoreboard();
 

@@ -40,6 +40,16 @@ public class Scoreboard {
         match.updateScore(homeScore, awayScore);
     }
 
+    public void finishMatch(String homeTeam, String awayTeam) {
+        boolean removed = matches.removeIf(match ->
+                match.getHomeTeam().equals(homeTeam) &&
+                match.getAwayTeam().equals(awayTeam));
+
+        if (!removed) {
+            throw new IllegalStateException("Match does not exist");
+        }
+    }
+
     public List<Match> getSummary() {
         return List.copyOf(matches);
     }

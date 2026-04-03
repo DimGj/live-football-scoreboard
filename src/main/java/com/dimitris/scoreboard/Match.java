@@ -3,8 +3,8 @@ package com.dimitris.scoreboard;
 public class Match {
     private final String homeTeam;
     private final String awayTeam;
-    private final int homeScore;
-    private final int awayScore;
+    private int homeScore;
+    private int awayScore;
 
     public Match(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;
@@ -27,5 +27,10 @@ public class Match {
 
     public int getAwayScore() {
         return awayScore;
+    }
+
+    public void updateScore(int homeScore, int awayScore) {
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
     }
 }

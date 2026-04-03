@@ -26,6 +26,17 @@ public class Scoreboard {
         matches.add(new Match(homeTeam, awayTeam));
     }
 
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        Match match = matches.stream()
+                .filter(existingMatch ->
+                        existingMatch.getHomeTeam().equals(homeTeam) &&
+                        existingMatch.getAwayTeam().equals(awayTeam))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Match does not exist"));
+
+        match.updateScore(homeScore, awayScore);
+    }
+
     public List<Match> getSummary() {
         return List.copyOf(matches);
     }

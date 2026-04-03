@@ -96,4 +96,17 @@ class ScoreboardTest {
 
         assertEquals("Match already exists", exception.getMessage());
     }
+
+    @Test
+    void shouldUpdateScoreForExistingMatch() {
+        Scoreboard scoreboard = new Scoreboard();
+
+        scoreboard.startMatch("Brazil", "Spain");
+        scoreboard.updateScore("Norway", "Greece", 3, 1);
+
+        Match match = scoreboard.getSummary().get(0);
+
+        assertEquals(3, match.getHomeScore());
+        assertEquals(1, match.getAwayScore());
+    }
 }

@@ -2,6 +2,8 @@ package com.dimitris.scoreboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+
 
 public class Scoreboard {
     private final List<Match> matches = new ArrayList<>();
@@ -51,7 +53,11 @@ public class Scoreboard {
     }
 
     public List<Match> getSummary() {
-        return List.copyOf(matches);
+        return matches.stream()
+                .sorted(Comparator
+                        .comparingInt((Match m) -> m.getHomeScore() + m.getAwayScore())
+                        .reversed())
+                .toList();
     }
 
     private void validateTeamName(String teamName, String errorMessage) {

@@ -186,8 +186,8 @@ class ScoreboardTest {
         scoreboard.updateScore("Russia", "France", 1, 3); // sum: 4
 
         var summary = scoreboard.getSummary();
-        assertEquals("Spain", summary.get(0).getHomeTeam());
+        assertEquals("Italy", summary.get(0).getHomeTeam());
         assertEquals("Mexico", summary.get(1).getHomeTeam());
-        assertEquals("Germany", summary.get(2).getHomeTeam());
+        assertEquals("Russia", summary.get(2).getHomeTeam());
     }
 }
